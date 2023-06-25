@@ -1,0 +1,27 @@
+#!/bin/bash
+
+#SBATCH -p shared
+#SBATCH -c 100
+#SBATCH --mem=200G
+#SBATCH --gres=tmp:400G
+#SBATCH -t 71:59:00
+
+
+cd /nobackup/qkdf72/Trinity/Reads/Trimmed
+
+module purge
+
+module load bioinformatics
+
+module load busco
+
+unset OMP_PROC_BIND
+
+unset OMP_PLACES
+
+#remember your genome should be in .fa format
+
+# awk '/^S/{print ">"$2"\n"$3}' in.gfa | fold > out.fa
+# Busco_M.b_Trinity_output is the output u need
+
+busco -i All_trinity_stages_P2_M.b.Trinity.fasta  -l embryophyta_odb10  -o Busco_P2_M.b_Trinity_output -m transcriptome -c 100
